@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const User = require("./../models/User");
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 router.get("/", (req, res) => {
   res.json({
@@ -46,11 +47,18 @@ router.get("/login", async (req, res) => {
     const { email, password } = req.body;
     const existingUser = await User.findOne({ email: email });
     if (existingUser) {
-      if (existingUser.password == password) {
+      const iscorrectPassword = await bcrypt.compare(password, existingUser.password);
+      if (iscorrectPassword) {
+        const token = jwt.sign(
+          {email: existingUser.email},  //payload 
+          'secret',                       // secret key
+          {expiresIn:'2h'}                // timer 
+        );
         res.status(200).json({
           success: true,
           message: "User Login succssfully",
           email: existingUser.email,
+          token
         });
       }
       else{
