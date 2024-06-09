@@ -4,6 +4,13 @@ const dotenv = require('dotenv').config();
 const PORT=4000;
 
 const app=express();
+// use middleware
+app.use(express.json());
+//import router
+const userRouter= require('./routes/userRoute');
+
+//mount the router
+app.use('/v1/user',userRouter);
 
 const mongo= process.env.MONGO_URL;
 
@@ -14,15 +21,9 @@ mongoose.connect(mongo).then(()=>{
 })
 
 app.get('/',(req,res)=>{
-    res.send("Hello badde bhai");
-})
-app.get('/health',(req,res)=>{
-    res.json({
-        message:'Api working is fine',
-        status:"working fine",
-        date: new Date().toLocaleDateString()
-    })
-})
+    res.send("<h1>This is home page bro</h1>");
+});
+
 
 app.listen(PORT,()=>{
     console.log(`Server started at ${PORT}`);
