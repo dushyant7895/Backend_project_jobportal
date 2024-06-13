@@ -7,6 +7,7 @@ const userRouter= require('./routes/userRoute');
 const jobRoute = require('./routes/jobRoute');
 //import middleware
 const VerifyToken= require('./middleware/VerifyToken');
+const ErrorHandler=require('./middleware/ErrorHandler');
 
 const app=express();
 // use middleware
@@ -28,6 +29,14 @@ app.get('/',(req,res)=>{
     res.send("<h1>This is home page bro</h1>");
 });
 
+app.get('*',(req,res)=>{
+    res.status(500).json({
+        message:"This router is wrong",
+        status:"Error"
+    });
+});
+
+app.use(ErrorHandler);
 
 app.listen(PORT,()=>{
     console.clear();
