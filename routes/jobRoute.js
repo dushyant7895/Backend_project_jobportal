@@ -1,9 +1,22 @@
 const express = require("express");
 const router = express.Router();
 const Job = require("./../models/Job");
+const ValidateNewJob = require('../middleware/ValidateNewJob');
 
 router.get("/", async (req, res) => {
-  const jobs = await Job.find();
+  const {minSalary, maxSalary, jobType, location,remote} = req.query;
+  console.log(minSalary,maxSalary,jobType, location,remote);
+  const jobs = await Job.find(
+    {
+      monthlySalary: {
+        $gte: minSalary || 0,
+        $lte: maxSalary || 9999999
+      },
+      jobType: jobType || { $exists:true},
+      location: location || {$exists:true},
+      remote: remote=="true" || {$exists:true}
+    }
+  );
   res.status(200).json({
     message: "Job route working fine",
     status: "working",
@@ -11,7 +24,7 @@ router.get("/", async (req, res) => {
   });
 });
 
-router.post("/add", async (req, res) => {
+router.post("/add",ValidateNewJob, async (req, res) => {
   const {
     companyName,
     logoUrl,

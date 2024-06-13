@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const jobSchema = new mongoose.Schema({
+
+    // companyName, logoUrl,jobPosition,monthlySalary,jobType,remote,location, jobDescription,
+    //aboutCompany,skillsRequired, additionalInformation
+
     companyName:{
         type:String,
         required:true

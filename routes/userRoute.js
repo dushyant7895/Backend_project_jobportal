@@ -3,6 +3,8 @@ const router = express.Router();
 const User = require("./../models/User");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const ValidateNewUser = require('../middleware/ValidateNewUser');
+
 
 router.get("/", (req, res) => {
   res.json({
@@ -11,7 +13,7 @@ router.get("/", (req, res) => {
   });
 });
 // we will validation middleware
-router.post("/register", async (req, res) => {
+router.post("/register",ValidateNewUser, async (req, res) => {
 
   try {
   const { name, email, password } = req.body;
