@@ -3,42 +3,48 @@ const ValidateNewJob = (req, res, next) => {
   //aboutCompany,skillsRequired, additionalInformation
   const {
     companyName,
+    title,
+    description,
     logoUrl,
     jobPosition,
-    monthlySalary,
-    jobType,
-    remote,
+    salary,
     location,
-    jobDescription,
-    aboutCompany,
-    skillsRequired,
+    duration,
+    locationType,
+    information,
+    jobType,
+    skills,
+   
     
   } = req.body;
-
+const refUserId =req.refUserId;
   if (
     !companyName ||
+    !title ||
+    !description ||
     !logoUrl ||
     !jobPosition ||
-    !monthlySalary ||
+    !salary ||
+    !duration ||
     !jobType ||
     !location ||
-    !jobDescription ||
-    !aboutCompany ||
-    !skillsRequired
-    
+    !information ||
+    !locationType ||
+    !skills ||
+    !refUserId
   ) {
     res.status(400).json({
       message: "Please provide all required field",
     });
   }
   const validJobType =["Full-Time", "Part-Time","Internship"];
-  const validSkills = Array.isArray(skillsRequired) && skillsRequired.every(skill => typeof skill === 'string' );
-  const validMonthlySalary = typeof monthlySalary === 'number' && monthlySalary > 0;
-  const validRemote = typeof remote === 'boolean';
+  const validSkills = Array.isArray(skills) && skills.every(skill => typeof skill === 'string' );
+  const validMonthlySalary = typeof salary === 'number' && salary > 0;
+  
   const validateJobPosition = validJobType.includes(jobType);
   const validLogoUrl = logoUrl.match(/^(https?:\/\/.*\.(?:png|jpg|jpeg|gif|svg|webp))$/i);
   
-  if(!validSkills || !validMonthlySalary || !validRemote || !validateJobPosition || !validLogoUrl ){
+  if(!validSkills || !validMonthlySalary || !validateJobPosition || !validLogoUrl ){
     return res.status(400).json({
         message:"Job details fields are requide or invalid"
     });

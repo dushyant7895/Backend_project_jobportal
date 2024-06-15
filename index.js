@@ -6,7 +6,7 @@ const PORT=4000;
 const userRouter= require('./routes/userRoute');
 const jobRoute = require('./routes/jobRoute');
 //import middleware
-const VerifyToken= require('./middleware/VerifyToken');
+
 const ErrorHandler=require('./middleware/ErrorHandler');
 
 const app=express();
@@ -15,7 +15,9 @@ app.use(express.json());
 
 //mount the router
 app.use('/v1/user',userRouter);
-app.use('/v1/job', VerifyToken, jobRoute); // next() send the token into jobRoute
+app.use('/v1/job', 
+    // VerifyToken, 
+    jobRoute); // next() send the token into jobRoute
 
 const mongo= process.env.MONGO_URL;
 

@@ -6,7 +6,7 @@ const VerifyToken =(req,res,next)=>{
         if(!token) return res.status(401).json({message:"Token not found or valid"});
         const decode = jwt.verify(token,'secret');
         console.log(decode);
-        req.user= decode;
+        req.refUserId= decode.userID;
         next();
         //bearer 21324wdfefdsfefef3242 (Token look like this)
     } catch (error) {
