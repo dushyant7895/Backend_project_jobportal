@@ -8,14 +8,17 @@ const jobRoute = require('./routes/jobRoute');
 //import middleware
 
 const ErrorHandler=require('./middleware/ErrorHandler');
+const cors = require('cors');
 
 const app=express();
+
+app.use(cors());
 // use middleware
 app.use(express.json());
 
 //mount the router
-app.use('/v1/user',userRouter);
-app.use('/v1/job', 
+app.use('/user',userRouter);
+app.use('/job', 
     // VerifyToken, 
     jobRoute); // next() send the token into jobRoute
 

@@ -13,7 +13,7 @@ router.get("/", (req, res) => {
 // we will validation middleware
 router.post("/register",ValidateNewUser, registerUser());
 
-router.get("/login", handleLogin());
+router.post("/login", handleLogin());
 
 module.exports = router;
 

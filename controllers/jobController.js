@@ -59,9 +59,9 @@ function createNewJob() {
       const skillsArray = skills ? skills.split(',') : [];
       const jobs = await Job.find(
         {
-          monthlySalary: {
-            $gte: minSalary || 0,
-            $lte: maxSalary || 9999999
+          salary: {
+            $gte: parseInt(minSalary) || 0,
+            $lte: parseInt(maxSalary) || 9999999
           },
           jobType: jobType || { $exists:true},
           location: location || {$exists:true},
@@ -81,7 +81,7 @@ function createNewJob() {
       res.status(200).json({
         message: "Job route working fine",
         status: "working",
-        finaljobss: finalJobs,
+        jobs: finalJobs,
       });
     }catch(error){
       next({
